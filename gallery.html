@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Some Cute Photos Of Yours 💖</title>
+  <style>
+    body {
+      background-color: #ffe6f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+    img {
+      max-width: 90vw;
+      max-height: 70vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #ff99cc;
+      transition: all 0.6s ease;
+    }
+
+    .next-btn {
+      margin-top: 40px;
+    }
+
+    .next-btn a {
+      text-decoration: none;
+      font-size: 1.2em;
+      padding: 10px 25px;
+      background-color: white;
+      color: #ff1493;
+      border-radius: 25px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      transition: 0.3s ease;
+        }
+
+    .next-btn a:hover {
+      background-color: #ff1493;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+        }
+  
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: #ff3399;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background-color: #e60073;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="photo" src="" alt="Grishma's Photo" />
+
+  <button id="nextBtn">Next 💕</button>
+    <div class="next-btn">
+        <a href="/video.html" target="_blank">Next Page</a>
+    </div>
+
+
+  <script>
+    const photos = [
+      "grishma2.jpg",
+      "grishma3.jpg",
+      "grishma4.jpg",
+      "grishma5.jpg",
+      "grishma6.jpg",
+      "grishma7.jpg",
+      "grishma8.jpg",
+      "grishma9.jpg",
+      "grishma10.jpg",
+      "grishma11.jpg",
+      "grishma12.jpg",
+      "grishma13.jpg",
+      ];
+
+    let current = 0;
+    const photo = document.getElementById("photo");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function showNextPhoto() {
+      photo.style.opacity = 0;
+      setTimeout(() => {
+        current = (current + 1) % photos.length;
+        photo.src = photos[current];
+        photo.style.opacity = 1;
+      }, 400);
+    }
+
+    nextBtn.addEventListener("click", showNextPhoto);
+
+    // Load first photo
+    photo.src = photos[current];
+  </script>
+</body>
+</html>
