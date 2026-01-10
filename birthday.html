@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>❤️🫰</title>
+  <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/happy-birthday-sticker-icon-svg-download-png-7269846.png?f=webp&w=512" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+    }
+
+    .birthday-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 4rem;
+      margin: 0.5em 0;
+      color: #ff69b4;
+    }
+
+    p {
+      font-size: 1.5rem;
+      max-width: 600px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .next-btn {
+      margin-top: 2rem;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 20px #ff69b4;
+      transition: all 0.3s ease;
+    }
+
+    .next-btn:hover {
+      background-color: #ff1493;
+      box-shadow: 0 0 30px #ff1493;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starCanvas"></canvas>
+  <canvas id="petalsCanvas"></canvas>
+  <canvas id="fireworksCanvas"></canvas>
+
+
+  <div class="birthday-container">
+    <h1>Happy Birthday Grishma Ji 🎉</h1>
+    <p>Happy Birthday Ji happy Birthday</p>
+    
+    <div id="celebrateBtn" style="opacity: 0; transform: scale(0);">
+      <a href="gallery.html" target="_blank" class="next-btn">Next Page </a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script>
+
+    const starCanvas = document.getElementById("starCanvas");
+    const petalsCanvas = document.getElementById("petalsCanvas");
+    const fireworksCanvas = document.getElementById("fireworksCanvas");
+
+    starCanvas.width = petalsCanvas.width = fireworksCanvas.width = window.innerWidth;
+    starCanvas.height = petalsCanvas.height = fireworksCanvas.height = window.innerHeight;
+
+    const starCtx = starCanvas.getContext("2d");
+    const petalsCtx = petalsCanvas.getContext("2d");
+    const fireworksCtx = fireworksCanvas.getContext("2d");
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * starCanvas.width;
+        this.y = Math.random() * starCanvas.height;
+        this.radius = Math.random() * 1.2;
+        this.alpha = Math.random();
+      }
+      update() {
+        this.alpha += (Math.random() - 0.5) * 0.05;
+        if (this.alpha <= 0 || this.alpha >= 1) this.alpha = Math.random();
+      }
+      draw() {
+        starCtx.beginPath();
+        starCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        starCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        starCtx.fill();
+      }
+    }
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * petalsCanvas.width;
+        this.y = -20;
+        this.size = 8 + Math.random() * 12;
+        this.speed = 0.001 + Math.random() * 2;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.angularSpeed = (Math.random() - 0.5) * 0.02;
+      }
+      update() {
+        this.y += this.speed;
+        this.angle += this.angularSpeed;
+        if (this.y > petalsCanvas.height) this.reset();
+      }
+      draw() {
+        petalsCtx.save();
+        petalsCtx.translate(this.x, this.y);
+        petalsCtx.rotate(this.angle);
+        petalsCtx.fillStyle = "rgba(255,182,193,0.6)";
+        petalsCtx.beginPath();
+        petalsCtx.moveTo(0, 0);
+        petalsCtx.quadraticCurveTo(this.size / 2, -this.size, this.size, 0);
+        petalsCtx.quadraticCurveTo(this.size / 2, this.size, 0, 0);
+        petalsCtx.fill();
+        petalsCtx.restore();
+      }
+    }
+
+    class Firework {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * fireworksCanvas.width;
+        this.y = fireworksCanvas.height;
+        this.targetY = 100 + Math.random() * 200;
+        this.speed = 5 + Math.random() * 4;
+        this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        this.exploded = false;
+        this.particles = [];
+      }
+      update() {
+        if (!this.exploded) {
+          this.y -= this.speed;
+          if (this.y <= this.targetY) {
+            this.exploded = true;
+            for (let i = 0; i < 30; i++) {
+              this.particles.push(new Particle(this.x, this.y, this.color));
+            }
+          }
+        } else {
+          this.particles.forEach(p => p.update());
+          this.particles = this.particles.filter(p => p.life > 0);
+        }
+      }
+      draw() {
+        if (!this.exploded) {
+          fireworksCtx.beginPath();
+          fireworksCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          fireworksCtx.fillStyle = this.color;
+          fireworksCtx.fill();
+        } else {
+          this.particles.forEach(p => p.draw());
+        }
+      }
+    }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.speed = Math.random() * 4 + 1;
+        this.life = 60 + Math.random() * 20;
+        this.color = color;
+      }
+      update() {
+        this.life--;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+      }
+      draw() {
+        fireworksCtx.beginPath();
+        fireworksCtx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        fireworksCtx.fillStyle = this.color;
+        fireworksCtx.fill();
+      }
+    }
+
+    const stars = Array.from({ length: 100 }, () => new Star());
+    const petals = Array.from({ length: 30 }, () => new Petal());
+    const fireworks = [];
+
+    function animate() {
+      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+      fireworksCtx.fillStyle = "rgba(0,0,0,0.1)";
+      fireworksCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+
+      stars.forEach(star => { star.update(); star.draw(); });
+      petals.forEach(petal => { petal.update(); petal.draw(); });
+
+      for (let i = 0; i < fireworks.length; i++) {
+        fireworks[i].update();
+        fireworks[i].draw();
+        if (fireworks[i].exploded && fireworks[i].particles.length === 0) {
+          fireworks.splice(i, 1);
+          i--;
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    function startFireworks() {
+      setInterval(() => {
+        fireworks.push(new Firework());
+      }, 800);
+    }
+
+    setTimeout(() => {
+      startFireworks();
+      gsap.to("#celebrateBtn", { duration: 1, opacity: 1, scale: 1, ease: "back.out(1.7)" });
+    }, 3000);
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/happy-birthday-sticker-icon-svg-download-png-7269846.png?f=webp&w=512" type="image/x-icon">
+  <title>Gimoo Photos📷</title>
+  <style>
+    body {
+      background-color: #ffe6f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+    img {
+      max-width: 90vw;
+      max-height: 70vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #ff99cc;
+      transition: all 0.6s ease;
+    }
+
+    .next-btn {
+      margin-top: 40px;
+    }
+
+    .next-btn a {
+      text-decoration: none;
+      font-size: 1.2em;
+      padding: 10px 25px;
+      background-color: white;
+      color: #ff1493;
+      border-radius: 25px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      transition: 0.3s ease;
+        }
+
+    .next-btn a:hover {
+      background-color: #ff1493;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+        }
+  
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: #ff3399;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background-color: #e60073;
+    }
+    
+    #music-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      font-size: 20px;
+      color: #ff9797;
+      box-shadow: 0 0 15px #ff99cc;
+      cursor: pointer;
+      transition: 0.3s ease;
+  }
+
+    #music-btn:hover {
+      transform: rotate(20deg) scale(1.1);
+      box-shadow: 0 0 25px aqua;
+  }
+
+  </style>
+</head>
+<body>
+
+  <img id="photo" src="" alt="Grishma's Photo" />
+
+  <button id="nextBtn">Next 💕</button>
+    <div class="next-btn">
+        <a href="video.html" target="_blank">Next Page</a>
+    </div>
+    
+  <audio id="music" loop autoplay>
+    <source src="happy-birthday-254480.mp3" type="audio/mp3">
+  </audio>
+
+  <button id="music-btn">🎵</button>
+
+
+
+
+
+  <script>
+    const photos = [
+      "chasmiss2.jpg",
+      "grishma3.jpg",
+      "grishma11.jpg",
+      "grishma12.jpg",
+      "grishma13.jpg",
+      "grishma2.jpg",
+      "grishma4.jpg",
+      "grishma5.jpg",
+      "grishma6.jpg",
+      "grishma7.jpg",
+      "grishma8.jpg",
+      "grishma9.jpg",
+      "grishma10.jpg",
+      "chasmiss1.jpg",
+      "grishma14.jpg",
+      "grishma15.jpg",
+      "grishma16.jpg",
+      "grishma17.jpg",
+      "grishma18.jpg",
+      "grishma19.jpg",
+      "grishma20.jpg",
+      "grishma1.jpg",
+      "grishma21.jpg",
+      "grishma22.jpg",
+      "grishma23.jpg",
+      "grishma24.jpg",
+      "grishma25.jpg",
+      "grishma26.jpg",      
+      "grishma27.jpg",
+      "grishma28.jpg",
+      "grishma29.jpg",
+      "grishma30.jpg",
+      "grishma31.jpg",
+      "grishma32.jpg",
+      "grishma33.jpg",
+      "grishma34.jpg",
+      "grishma35.jpg",
+      "grishma36.jpg",
+      "grishma37.jpg",
+      "grishma38.jpg",
+      "grishma39.jpg",
+      "grishma40.jpg",
+      "grishma41.jpg",
+      "grishma42.jpg",
+      "grishma43.jpg",
+      "grishma44.jpg",
+      "grishma45.jpg",
+      "grishma46.jpg",
+      "grishma47.jpg",
+      "grishma48.jpg",  
+      ];
+
+    let current = 0;
+    const photo = document.getElementById("photo");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function showNextPhoto() {
+      photo.style.opacity = 0;
+      setTimeout(() => {
+        current = (current + 1) % photos.length;
+        photo.src = photos[current];
+        photo.style.opacity = 1;
+      }, 400);
+    }
+
+    nextBtn.addEventListener("click", showNextPhoto);
+
+    // Load first photo
+    photo.src = photos[current];
+    
+    const musicBtn = document.getElementById("music-btn");
+    let isPlaying = true;
+
+    window.addEventListener("load", () => {
+      music.play().catch(() => {
+        console.log("Autoplay blocked by browser. Click anywhere to start sound.");
+        isPlaying = false;
+        musicBtn.textContent = "🔇";
+    });
+  });
+
+    musicBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.textContent = "🔇";
+        isPlaying = false;
+    }else {
+        music.play();
+        musicBtn.textContent = "🎵";
+        isPlaying = true;
+    }
+  });
+
+  </script>
+</body>
+</html>
+
+
